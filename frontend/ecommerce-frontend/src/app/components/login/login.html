@@ -1,0 +1,70 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="text-center">Login</h3>
+        </div>
+        <div class="card-body">
+          <!-- Success Message -->
+          <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ successMessage }}
+            <button type="button" class="btn-close" aria-label="Close" (click)="successMessage = ''"></button>
+          </div>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email" 
+                formControlName="email"
+                [class.is-invalid]="isFieldInvalid('email')">
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+                <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
+                <small *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</small>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <input 
+                  type="password" 
+                  class="form-control" 
+                  id="password" 
+                  formControlName="password"
+                  [class.is-invalid]="isFieldInvalid('password')">
+                <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility('password')">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
+                <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</small>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button 
+                type="submit" 
+                class="btn btn-primary" 
+                [disabled]="loginForm.invalid || loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ loading ? 'Logging in...' : 'Login' }}
+              </button>
+            </div>
+
+            <div class="alert alert-danger mt-3" *ngIf="error">
+              {{ error }}
+            </div>
+          </form>
+
+          <div class="text-center mt-3">
+            <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

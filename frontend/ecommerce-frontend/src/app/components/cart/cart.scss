@@ -1,0 +1,24 @@
+.cart-item-image {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+}
+
+.border-bottom:last-child {
+  border-bottom: none !important;
+}
+
+.btn-sm {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.alert-info {
+  border-left: 4px solid #0dcaf0;
+}

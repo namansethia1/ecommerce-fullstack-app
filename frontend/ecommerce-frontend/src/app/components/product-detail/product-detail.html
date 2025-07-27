@@ -1,0 +1,103 @@
+<div class="product-detail-container">
+  <div class="container">
+    <div class="row" *ngIf="!loading && product">
+      <div class="col-md-6">
+        <div class="product-image">
+          <img [src]="product.imageUrl || '/assets/placeholder-product.jpg'" 
+               [alt]="product.name" 
+               class="img-fluid">
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="product-info">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a routerLink="/products">Products</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                {{ product.name }}
+              </li>
+            </ol>
+          </nav>
+
+          <h1 class="product-title">{{ product.name }}</h1>
+          
+          <div class="product-price">
+            <span class="price">${{ product.unitPrice | number:'1.2-2' }}</span>
+          </div>
+
+          <div class="product-description">
+            <h4>Description</h4>
+            <p>{{ product.description }}</p>
+          </div>
+
+          <div class="product-details">
+            <div class="detail-item">
+              <strong>Category:</strong> {{ product.category?.name || 'Uncategorized' }}
+            </div>
+            <div class="detail-item" *ngIf="product.unitsInStock !== undefined">
+              <strong>Stock:</strong> 
+              <span [class]="'stock-' + (product.unitsInStock > 10 ? 'available' : product.unitsInStock > 0 ? 'low' : 'out')">
+                {{ product.unitsInStock > 0 ? product.unitsInStock + ' available' : 'Out of stock' }}
+              </span>
+            </div>
+          </div>
+
+          <div class="add-to-cart-section" *ngIf="product.unitsInStock && product.unitsInStock > 0">
+            <div class="quantity-selector">
+              <label for="quantity">Quantity:</label>
+              <div class="quantity-controls">
+                <button type="button" class="btn btn-outline-secondary btn-sm" 
+                        (click)="decreaseQuantity()" [disabled]="quantity <= 1">
+                  -
+                </button>
+                <input type="number" id="quantity" class="form-control quantity-input" 
+                       [(ngModel)]="quantity" [max]="product.unitsInStock" min="1">
+                <button type="button" class="btn btn-outline-secondary btn-sm" 
+                        (click)="increaseQuantity()" [disabled]="quantity >= product.unitsInStock">
+                  +
+                </button>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-lg add-to-cart-btn" 
+                    (click)="addToCart()" 
+                    [disabled]="quantity > product.unitsInStock">
+              <i class="fas fa-shopping-cart me-2"></i>
+              Add to Cart
+            </button>
+          </div>
+
+          <div class="out-of-stock-message" *ngIf="!product.unitsInStock || product.unitsInStock <= 0">
+            <div class="alert alert-warning">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              This product is currently out of stock.
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button class="btn btn-outline-secondary" (click)="goBack()">
+              <i class="fas fa-arrow-left me-2"></i>
+              Back to Products
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center" *ngIf="loading">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading product details...</p>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="error">
+      <h4>Error</h4>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="goBack()">Go Back</button>
+    </div>
+  </div>
+</div>
