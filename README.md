@@ -194,6 +194,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Your Name - your.email@example.com
+Your Name - naman.sethia@mca.christuniveristy.in
 
 Project Link: [https://github.com/yourusername/ecommerce-app](https://github.com/yourusername/ecommerce-app)
